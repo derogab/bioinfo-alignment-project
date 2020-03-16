@@ -19,9 +19,11 @@ def main(argv):
         return
 
     # Read data
-    iter = samfile.fetch()
-    for x in iter:
-        print(str(x))   
+    lines = samfile.fetch()
+
+    align = [line for line in lines]
+    align = [str(line).strip().split('\t') for line in align]
+    align = [[int(line[3]), line[5], line[9]] for line in align] # pos, cigar, query
 
     samfile.close()  
 
