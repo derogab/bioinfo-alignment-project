@@ -56,16 +56,16 @@ def main(argv):
 
     align = [str(line).strip().split('\t') for line in lines]
 
+    # Filter
+    if args.pos is not None:
+        align = [line for line in align if int(line[3]) in args.pos]
+
     # Get only positions available
     if(args.only_pos):
         positions_list = [int(line[3]) for line in align]
         print(positions_list)
         return
 
-    # Filter
-    if args.pos is not None:
-        align = [line for line in align if int(line[3]) in args.pos]
-    
     # Output requested data 
     print('OUTPUT DATA: \n')
 
