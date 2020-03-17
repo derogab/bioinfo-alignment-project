@@ -42,7 +42,7 @@ def main(argv):
     align = [[int(line[3]), line[5], line[9]] for line in align] # pos, cigar, query
 
     # Filter
-    if args.pos is None:
+    if args.pos is not None:
         align = [line for line in align if line[0] in args.pos]
     
     # Output requested data 
