@@ -30,8 +30,7 @@ def main(argv):
     # Read data
     lines = samfile.fetch()
 
-    align = [line for line in lines]
-    align = [str(line).strip().split('\t') for line in align]
+    align = [str(line).strip().split('\t') for line in lines]
     align = [[int(line[3]), line[5], line[9]] for line in align] # pos, cigar, query
 
     # Filter 
