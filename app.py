@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import pysam
+import argparse
 
 def output(data):
     print('OUTPUT DATA: \n')
@@ -13,9 +14,29 @@ def output(data):
 
 def main(argv):
 
+    # Program info and argument parser
+    parser = argparse.ArgumentParser(
+        description='Print reads from a SAM/BAM file filtered for start positions.'
+    )
+
+    parser.add_argument(
+        '-f', '--file',
+        required=True,
+        help='path to input file'
+    )
+
+    parser.add_argument(
+        '-p', '--pos',
+        nargs='+',
+        type=int,
+        help='list of positions'
+    )
+
+    args = parser.parse_args()
+
     # parameters
-    filename = argv[1]
-    positions = [int(item) for item in argv[2:]]
+    filename = args.file
+    positions = args.pos
 
     # Open valid input files 
     if '.sam' in filename.lower():
@@ -33,12 +54,14 @@ def main(argv):
     align = [str(line).strip().split('\t') for line in lines]
     align = [[int(line[3]), line[5], line[9]] for line in align] # pos, cigar, query
 
-    # Filter 
-    align = [line for line in align if line[0] in positions]
+    # Filter
+    if args.pos is None:
+        align = [line for line in align if line[0] in positions]
     
     # Output requested data 
     output(align)
 
+    # Close file 
     samfile.close()  
 
 if __name__ == '__main__':
