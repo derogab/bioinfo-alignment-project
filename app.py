@@ -5,11 +5,12 @@ import argparse
 
 def main(argv):
 
-    # Program info and argument parser
+    # Program info
     parser = argparse.ArgumentParser(
         description='Print reads from a SAM/BAM file filtered for start positions.'
     )
-
+    
+    # Main features
     parser.add_argument(
         '-f', '--file',
         required=True,
@@ -23,16 +24,24 @@ def main(argv):
         help='list of positions'
     )
 
+    # Parse arguments
     args = parser.parse_args()
 
     # Open valid input files 
     if '.sam' in args.file.lower():
-        samfile = pysam.AlignmentFile(args.file, "r")
+        open_mode = 'r'
     elif '.bam' in args.file.lower():
+        open_mode = 'rb'
+        # create index file for binary file
         pysam.index(args.file)
-        samfile = pysam.AlignmentFile(args.file, "rb")
     else:
         print('Invalid input file.')
+        return
+
+    try:
+        samfile = pysam.AlignmentFile(args.file, open_mode)
+    except Exception as ex:
+        print('An exception of type ' + type(ex).__name__ + ' occurred: ' + ex.args[1])
         return
 
     # Read data
