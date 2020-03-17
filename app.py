@@ -3,15 +3,6 @@ import sys
 import pysam
 import argparse
 
-def output(data):
-    print('OUTPUT DATA: \n')
-
-    if len(data) == 0:
-        print('No reads found.')
-    else:
-        for x in data:
-            print(str(x[0]) + '\t' + x[2] + '\n') # pos, query
-
 def main(argv):
 
     # Program info and argument parser
@@ -34,16 +25,12 @@ def main(argv):
 
     args = parser.parse_args()
 
-    # parameters
-    filename = args.file
-    positions = args.pos
-
     # Open valid input files 
-    if '.sam' in filename.lower():
-        samfile = pysam.AlignmentFile(filename, "r")
-    elif '.bam' in filename.lower():
-        pysam.index(filename)
-        samfile = pysam.AlignmentFile(filename, "rb")
+    if '.sam' in args.file.lower():
+        samfile = pysam.AlignmentFile(args.file, "r")
+    elif '.bam' in args.file.lower():
+        pysam.index(args.file)
+        samfile = pysam.AlignmentFile(args.file, "rb")
     else:
         print('Invalid input file.')
         return
@@ -56,10 +43,16 @@ def main(argv):
 
     # Filter
     if args.pos is None:
-        align = [line for line in align if line[0] in positions]
+        align = [line for line in align if line[0] in args.pos]
     
     # Output requested data 
-    output(align)
+    print('OUTPUT DATA: \n')
+
+    if len(align) == 0:
+        print('No reads found.')
+    else:
+        for x in align:
+            print(str(x[0]) + '\t' + x[2] + '\n') # pos, query
 
     # Close file 
     samfile.close()  
