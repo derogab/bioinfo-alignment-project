@@ -52,7 +52,7 @@ def main(argv):
         print('No reads found.')
     else:
         for x in align:
-            print(str(x[0]) + '\t' + x[2] + '\n') # pos, query
+            print(x[2] + ' (' + str(x[0]) + ') \n') # query (pos)
 
     # Close file 
     samfile.close()  
