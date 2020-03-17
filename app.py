@@ -39,11 +39,10 @@ def main(argv):
     lines = samfile.fetch()
 
     align = [str(line).strip().split('\t') for line in lines]
-    align = [[int(line[3]), line[5], line[9]] for line in align] # pos, cigar, query
 
     # Filter
     if args.pos is not None:
-        align = [line for line in align if line[0] in args.pos]
+        align = [line for line in align if int(line[3]) in args.pos]
     
     # Output requested data 
     print('OUTPUT DATA: \n')
@@ -52,7 +51,7 @@ def main(argv):
         print('No reads found.')
     else:
         for x in align:
-            print(x[2] + ' (' + str(x[0]) + ') \n') # query (pos)
+            print(x[9] + ' (' + x[3] + ') \n') # query (pos)
 
     # Close file 
     samfile.close()  
