@@ -2,6 +2,15 @@
 import sys
 import pysam
 
+def output(data):
+    print('OUTPUT DATA: \n')
+
+    if len(data) == 0:
+        print('No reads found.')
+    else:
+        for x in data:
+            print(str(x[0]) + '\t' + x[2] + '\n') # pos, query
+
 def main(argv):
 
     # parameters
@@ -24,6 +33,12 @@ def main(argv):
     align = [line for line in lines]
     align = [str(line).strip().split('\t') for line in align]
     align = [[int(line[3]), line[5], line[9]] for line in align] # pos, cigar, query
+
+    # Filter 
+    align = [line for line in align if line[0] in positions]
+    
+    # Output requested data 
+    output(align)
 
     samfile.close()  
 
