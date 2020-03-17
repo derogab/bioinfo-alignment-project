@@ -24,6 +24,13 @@ def main(argv):
         help='list of positions'
     )
 
+    # Extra features
+    parser.add_argument(
+        '--only-pos',
+        action='store_true',
+        help='get list of all align start positions'
+    )
+
     # Parse arguments
     args = parser.parse_args()
 
@@ -48,6 +55,12 @@ def main(argv):
     lines = samfile.fetch()
 
     align = [str(line).strip().split('\t') for line in lines]
+
+    # Get only positions available
+    if(args.only_pos):
+        positions_list = [int(line[3]) for line in align]
+        print(positions_list)
+        return
 
     # Filter
     if args.pos is not None:
