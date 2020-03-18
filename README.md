@@ -1,7 +1,7 @@
 # bioinfo-alignment-project
 ### Program to print reads from a SAM/BAM file filtered for start positions.
 
-```shell
+```
 $ python app.py -h
 usage: app.py [-h] -f FILE [-p POS [POS ...]] [--only-pos]
 
@@ -16,11 +16,12 @@ optional arguments:
 ```
 
 ##### W/ Docker 
-```shell
+```
 docker build -t bioinfo-alignment-project .
 ```
-```shell
+```
 docker run \
   -v /host/path/to/examples/:/usr/src/app/examples/ \
-  bioinfo-alignment-project
+  bioinfo-alignment-project \
+  [-h] -f FILE [-p POS [POS ...]] [--only-pos]
 ```
