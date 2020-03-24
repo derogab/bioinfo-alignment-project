@@ -3,7 +3,23 @@ import sys
 import pysam
 import argparse
 
-def main(argv):
+# Global variables
+result_counter = 0
+
+# Output template
+def print_read(line):
+    global result_counter
+    
+    # print a line / template output 
+    print(line.query_alignment_sequence + ' (' + str(line.reference_start) + ')')
+
+    # increment counter value
+    result_counter += 1
+
+
+# Main function w/ arguments 
+def main(argv): 
+    global result_counter
 
     # Program info
     parser = argparse.ArgumentParser(
@@ -56,32 +72,37 @@ def main(argv):
     if args.pos is None and not args.only_pos:
         
         # get all queries 
-        output = [line.query_alignment_sequence for line in samfile.fetch()]
-    
+        for line in samfile.fetch():
+            print_read(line)
+
     elif args.pos is not None and not args.only_pos: 
 
         # get only queries of selected positions 
-        output = [line.query_alignment_sequence for line in samfile.fetch() if line.reference_start in args.pos]
+        for line in samfile.fetch():
+            if line.reference_start in args.pos:
+                print_read(line)
 
     # Extra features
     elif args.pos is None and args.only_pos:
 
-        # get all positions 
-        output = [line.reference_start for line in samfile.fetch()]
+        # get all positions
+        for line in samfile.fetch():
+            print(line.reference_start)
+            result_counter += 1
 
     elif args.pos is not None and args.only_pos: 
 
         # get only selected positions
-        output = [line.reference_start for line in samfile.fetch() if line.reference_start in args.pos]
+        for line in samfile.fetch():
+            if line.reference_start in args.pos:
+                print(line.reference_start)
+                result_counter += 1
 
-
-    # Output requested data 
-    print('OUTPUT DATA: \n')
-
-    if len(output) == 0:
-        print('No reads found.')
+    # Counter results
+    if result_counter == 0:
+        print('No results found.')
     else:
-        print(output)
+        print(str(result_counter) + ' results printed.')
 
     # Close file 
     samfile.close()
