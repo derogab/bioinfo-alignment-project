@@ -69,14 +69,14 @@ def main(argv):
         print('An exception of type ' + type(ex).__name__ + ' occurred: ' + ex.args[1])
         return
 
-    # Main features
-    if args.pos is None and not args.only_pos:
+    # Core
+    if args.pos is None:
         
         # get all queries 
         for line in samfile.fetch():
             print_read(line)
 
-    elif args.pos is not None and not args.only_pos: 
+    else: 
 
         # get only queries of selected positions 
         for line in samfile.fetch():
