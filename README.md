@@ -25,3 +25,12 @@ docker run \
   bioinfo-alignment-project \
   [-h] -f FILE [-p POS [POS ...]] [--only-pos]
 ```
+
+### Dependencies
+###### Debian / Ubuntu
+```
+sudo apt-get install libbz2-dev liblzma-dev python3-dev samtools
+```
+```
+sudo -H pip3 install pysam
+```
