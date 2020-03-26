@@ -49,13 +49,6 @@ def main(argv):
         help='list of positions'
     )
 
-    # Extra features arguments
-    parser.add_argument(
-        '--only-pos',
-        action='store_true',
-        help='get list of all align start positions'
-    )
-
     # Parse arguments
     args = parser.parse_args()
 
@@ -76,7 +69,6 @@ def main(argv):
         print('An exception of type ' + type(ex).__name__ + ' occurred: ' + ex.args[1])
         return
 
-
     # Main features
     if args.pos is None and not args.only_pos:
         
@@ -90,22 +82,6 @@ def main(argv):
         for line in samfile.fetch():
             if(np.intersect1d(list(range(line.pos, line.pos + get_pos_range_length(line) - 1)), args.pos)):
                 print_read(line)
-
-    # Extra features
-    elif args.pos is None and args.only_pos:
-
-        # get all positions
-        for line in samfile.fetch():
-            print(line.reference_start, line.cigarstring)
-            result_counter += 1
-
-    elif args.pos is not None and args.only_pos: 
-
-        # get only selected positions
-        for line in samfile.fetch():
-            if(np.intersect1d(list(range(line.pos, line.pos + get_pos_range_length(line) - 1)), args.pos)):
-                print(line.reference_start, line.cigarstring)
-                result_counter += 1
 
     # Counter results
     if result_counter == 0:
