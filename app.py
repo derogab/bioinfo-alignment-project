@@ -20,9 +20,7 @@ def print_read(line):
     global result_counter
 
     # print a line / template output 
-    print(line.query_alignment_sequence + ' (' + str(line.reference_start) + ' - ' + str(line.cigarstring) + ' - ' + str(get_pos_range_length(line)) + ')')
-
-    print(line.query_sequence)
+    print(line.query_sequence + ' (' + str(line.reference_start) + ' - ' + str(line.cigarstring) + ' - ' + str(get_pos_range_length(line)) + ')')
 
     # increment counter value
     result_counter += 1
