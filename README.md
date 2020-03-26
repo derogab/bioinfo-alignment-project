@@ -32,5 +32,6 @@ docker run \
 sudo apt-get install libbz2-dev liblzma-dev python3-dev samtools
 ```
 ```
-sudo -H pip3 install pysam
+sudo -H python3 -m pip install pysam
+sudo -H python3 -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 ```
