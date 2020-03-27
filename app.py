@@ -14,8 +14,11 @@ def print_read(line):
 
     # template output 
     print('pos:\t\t', line.reference_start)
-    print('cigar:\t\t', line.cigarstring)
-    print('len(cigar):\t', len(Cigar(line.cigarstring)))
+    print('rname:\t\t', line.reference_id)
+    if line.cigarstring is not None: # check if it is an unmapped read
+        print('len(cigar):\t', len(Cigar(line.cigarstring)))
+        print('cigar:\t\t', line.cigarstring)
+        print('len(seq):\t', len(line.query_sequence))
     print('subreference:\t', line.query_sequence)
     print('query:\t\t', line.query_alignment_sequence)
     print()
@@ -77,8 +80,9 @@ def main(argv):
 
         # get only queries of selected positions 
         for line in samfile.fetch():
-            if(np.intersect1d(list(range(line.pos, line.pos + len(Cigar(line.cigarstring)) - 1)), args.pos)):
-                print_read(line)
+            if line.cigarstring is not None: # check if it is an unmapped read
+                if(np.intersect1d(list(range(line.pos, line.pos + len(Cigar(line.cigarstring)) - 1)), args.pos)):
+                    print_read(line)
 
     # Counter results
     if result_counter == 0:
