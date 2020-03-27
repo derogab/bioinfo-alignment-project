@@ -16,9 +16,9 @@ def range_control(items, limits):
 
 def print_read(line):
     global result_counter
-    
+
     # Output template 
-    print('len(seq):\t', len(line.query_sequence))
+    print('len(seq):\t', line.query_length)
     print('pos:\t\t', line.reference_start)
     print('cigar:\t\t', line.cigarstring)
     print('subreference:\t', line.query_sequence)
@@ -82,7 +82,7 @@ def main(argv):
 
         # get only queries of selected positions 
         for line in samfile.fetch():
-            if(range_control(args.pos, range(line.pos, line.pos + len(line.query_sequence)))):
+            if(range_control(args.pos, range(line.pos, line.pos + line.query_length))):
                 print_read(line)
 
     # Counter results
