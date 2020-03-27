@@ -3,16 +3,14 @@
 
 ```
 $ python app.py -h
-usage: app.py [-h] -f FILE [-p POS [POS ...]] [--only-pos]
+usage: app.py [-h] -f FILE [-p POS [POS ...]]
 
 Print reads from a SAM/BAM file filtered for start positions.
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -f FILE, --file FILE  path to input file
-  -p POS [POS ...], --pos POS [POS ...]
-                        list of positions
-  --only-pos            get list of all align start positions
+  -h, --help                              show this help message and exit
+  -f FILE, --file FILE                    path to input file
+  -p POS [POS ...], --pos POS [POS ...]   list of positions
 ```
 
 ##### W/ Docker 
@@ -23,7 +21,7 @@ docker build -t bioinfo-alignment-project .
 docker run \
   -v /host/path/to/examples/:/usr/src/app/examples/ \
   bioinfo-alignment-project \
-  [-h] -f FILE [-p POS [POS ...]] [--only-pos]
+  [-h] -f FILE [-p POS [POS ...]]
 ```
 
 ### Dependencies

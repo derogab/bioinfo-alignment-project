@@ -4,7 +4,7 @@ FROM python:3
 WORKDIR /usr/src/app
 
 # Install app dependencies
-RUN pip install argparse pysam cigar
+RUN pip install argparse pysam
 
 # Copy app 
 COPY app.py ./
