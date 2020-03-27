@@ -2,7 +2,6 @@
 import sys
 import pysam
 import argparse
-from cigar import Cigar
 
 # Global variables
 result_counter = 0
@@ -19,12 +18,9 @@ def print_read(line):
     global result_counter
     
     # Output template 
+    print('len(seq):\t', len(line.query_sequence))
     print('pos:\t\t', line.reference_start)
-    print('rname:\t\t', line.reference_id)
-    if line.cigarstring is not None: # check if it is an unmapped read
-        print('len(cigar):\t', len(Cigar(line.cigarstring)))
-        print('cigar:\t\t', line.cigarstring)
-        print('len(seq):\t', len(line.query_sequence))
+    print('cigar:\t\t', line.cigarstring)
     print('subreference:\t', line.query_sequence)
     print('query:\t\t', line.query_alignment_sequence)
     print()
@@ -75,7 +71,7 @@ def main(argv):
         print('An exception of type ' + type(ex).__name__ + ' occurred: ' + ex.args[1])
         return
 
-    # Core
+    # Core feature 
     if args.pos is None:
         
         # get all queries 
@@ -86,9 +82,8 @@ def main(argv):
 
         # get only queries of selected positions 
         for line in samfile.fetch():
-            if line.cigarstring is not None: # check if it is an unmapped read
-                if(range_control(args.pos, range(line.pos, line.pos + len(Cigar(line.cigarstring))))):
-                    print_read(line)
+            if(range_control(args.pos, range(line.pos, line.pos + len(line.query_sequence)))):
+                print_read(line)
 
     # Counter results
     if result_counter == 0:
