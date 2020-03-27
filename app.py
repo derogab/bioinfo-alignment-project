@@ -3,28 +3,25 @@ import sys
 import pysam
 import argparse
 import numpy as np
+from cigar import Cigar
 
 # Global variables
 result_counter = 0
-
-# Get positions range length
-def get_pos_range_length(line):
-    seq_length = 0
-    for op in line.cigar:
-        seq_length += op[1]
-    return seq_length
-
 
 # Output template
 def print_read(line):
     global result_counter
 
-    # print a line / template output 
-    print(line.query_sequence + ' (' + str(line.reference_start) + ' - ' + str(line.cigarstring) + ' - ' + str(get_pos_range_length(line)) + ')')
+    # template output 
+    print('pos:\t\t', line.reference_start)
+    print('cigar:\t\t', line.cigarstring)
+    print('len(cigar):\t', len(Cigar(line.cigarstring)))
+    print('subreference:\t', line.query_sequence)
+    print('query:\t\t', line.query_alignment_sequence)
+    print()
 
     # increment counter value
     result_counter += 1
-
 
 # Main function w/ arguments 
 def main(argv): 
@@ -80,7 +77,7 @@ def main(argv):
 
         # get only queries of selected positions 
         for line in samfile.fetch():
-            if(np.intersect1d(list(range(line.pos, line.pos + get_pos_range_length(line) - 1)), args.pos)):
+            if(np.intersect1d(list(range(line.pos, line.pos + len(Cigar(line.cigarstring)) - 1)), args.pos)):
                 print_read(line)
 
     # Counter results
@@ -92,6 +89,6 @@ def main(argv):
     # Close file 
     samfile.close()
 
-
+# Start main  w/ arguments 
 if __name__ == '__main__':
     main(sys.argv)
