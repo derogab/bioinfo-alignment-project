@@ -87,7 +87,7 @@ def main(argv):
         # get only queries of selected positions 
         for line in samfile.fetch():
             if line.cigarstring is not None: # check if it is an unmapped read
-                if(range_control(args.pos, range(line.pos, line.pos + len(Cigar(line.cigarstring)) - 1))):
+                if(range_control(args.pos, range(line.pos, line.pos + len(Cigar(line.cigarstring))))):
                     print_read(line)
 
     # Counter results
