@@ -33,5 +33,4 @@ sudo apt-get install libbz2-dev liblzma-dev python3-dev samtools
 ```
 ```
 sudo -H python3 -m pip install pysam
-sudo -H python3 -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
 ```

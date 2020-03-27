@@ -4,17 +4,7 @@ FROM python:3
 WORKDIR /usr/src/app
 
 # Install app dependencies
-RUN pip install argparse \
-                pysam \
-                numpy \
-                scipy \
-                matplotlib \
-                ipython \
-                jupyter \
-                pandas \
-                sympy \
-                nose \
-                cigar
+RUN pip install argparse pysam cigar
 
 # Copy app 
 COPY app.py ./

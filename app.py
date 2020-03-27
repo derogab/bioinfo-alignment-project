@@ -2,17 +2,23 @@
 import sys
 import pysam
 import argparse
-import numpy as np
 from cigar import Cigar
 
 # Global variables
 result_counter = 0
 
-# Output template
+# Functions 
+def range_control(items, limits):
+    # Check if almost one item is between limits
+    for item in items:
+        if item in limits:
+            return True
+    return False
+
 def print_read(line):
     global result_counter
-
-    # template output 
+    
+    # Output template 
     print('pos:\t\t', line.reference_start)
     print('rname:\t\t', line.reference_id)
     if line.cigarstring is not None: # check if it is an unmapped read
@@ -81,7 +87,7 @@ def main(argv):
         # get only queries of selected positions 
         for line in samfile.fetch():
             if line.cigarstring is not None: # check if it is an unmapped read
-                if(np.intersect1d(list(range(line.pos, line.pos + len(Cigar(line.cigarstring)) - 1)), args.pos)):
+                if(range_control(args.pos, range(line.pos, line.pos + len(Cigar(line.cigarstring)) - 1))):
                     print_read(line)
 
     # Counter results
